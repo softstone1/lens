@@ -7,7 +7,7 @@ import type { LensApiRequest, Route } from "../router/router";
 import { contentTypes, SupportedFileExtension } from "../router/router-content-types";
 import logger from "../logger";
 import { routeInjectionToken } from "../router/router.injectable";
-import { appName, publicPath } from "../../common/vars";
+import { appName, publicPath, staticFilesDirectory } from "../../common/vars";
 import path from "path";
 import readFileInjectable from "../../common/fs/read-file.injectable";
 import isDevelopmentInjectable from "../../common/vars/is-development.injectable";
@@ -20,7 +20,7 @@ interface ProductionDependencies {
 const handleStaticFileInProduction =
   ({ readFile }: ProductionDependencies) =>
     async ({ params }: LensApiRequest) => {
-      const staticPath = path.resolve(__static);
+      const staticPath = path.resolve(staticFilesDirectory);
       let filePath = params.path;
 
       for (let retryCount = 0; retryCount < 5; retryCount += 1) {

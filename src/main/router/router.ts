@@ -7,13 +7,9 @@ import Call from "@hapi/call";
 import type http from "http";
 import type httpProxy from "http-proxy";
 import { toPairs } from "lodash/fp";
-import path from "path";
 import type { Cluster } from "../../common/cluster/cluster";
 import type { LensApiResultContentType } from "./router-content-types";
 import { contentTypes } from "./router-content-types";
-
-// TODO: Import causes side effect, sets value for __static
-import "../../common/vars";
 
 export interface RouterRequestOpts {
   req: http.IncomingMessage;
@@ -51,7 +47,6 @@ interface Dependencies {
 
 export class Router {
   protected router = new Call.Router();
-  protected static rootPath = path.resolve(__static);
 
   constructor(routes: Route<unknown>[], private dependencies: Dependencies) {
     routes.forEach(route => {

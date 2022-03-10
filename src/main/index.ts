@@ -11,7 +11,7 @@ import httpProxy from "http-proxy";
 import * as LensExtensionsCommonApi from "../extensions/common-api";
 import * as LensExtensionsMainApi from "../extensions/main-api";
 import { app, autoUpdater, dialog, powerMonitor } from "electron";
-import { appName, isIntegrationTesting, isMac, isWindows, productName } from "../common/vars";
+import { appName, isIntegrationTesting, isMac, isWindows, productName, staticFilesDirectory } from "../common/vars";
 import { LensProxy } from "./lens-proxy";
 import { WindowManager } from "./window-manager";
 import { ClusterManager } from "./cluster-manager";
@@ -58,15 +58,15 @@ import userStoreInjectable from "../common/user-store/user-store.injectable";
 import trayMenuItemsInjectable from "./tray/tray-menu-items.injectable";
 import { broadcastNativeThemeOnUpdate } from "./native-theme";
 
-const di = getDi();
-
 app.setName(appName);
 
-app.on("ready", async () => {
+async function main() {
+  const di = getDi();
+
   await di.runSetups();
 
   injectSystemCAs();
-  
+
   const onCloseCleanup = disposer();
   const onQuitCleanup = disposer();
 
@@ -184,7 +184,8 @@ app.on("ready", async () => {
     lensProtocolRouterMain.route(rawUrl);
   });
 
-  logger.debug("[APP-MAIN] waiting for 'ready' and other messages");  
+  logger.debug("[APP-MAIN] waiting for 'ready' and other messages");
+  await app.whenReady();
 
   const directoryForExes = di.inject(directoryForExesInjectable);
 
@@ -194,7 +195,7 @@ app.on("ready", async () => {
 
   powerMonitor.on("shutdown", () => app.exit());
 
-  registerFileProtocol("static", __static);
+  registerFileProtocol("static", staticFilesDirectory);
 
   PrometheusProviderRegistry.createInstance();
   initializers.initPrometheusProviderRegistry();
@@ -350,7 +351,9 @@ app.on("ready", async () => {
   setTimeout(() => {
     appEventBus.emit({ name: "service", action: "start" });
   }, 1000);
-});
+}
+
+main();
 
 /**
  * Exports for virtual package "@k8slens/extensions" for main-process.

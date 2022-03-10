@@ -11,7 +11,7 @@ import { showAbout } from "../menu/menu";
 import { checkForUpdates, isAutoUpdateEnabled } from "../app-updater";
 import type { WindowManager } from "../window-manager";
 import logger from "../logger";
-import { isDevelopment, isWindows, productName } from "../../common/vars";
+import { isDevelopment, isWindows, productName, staticFilesDirectory } from "../../common/vars";
 import { exitApp } from "../exit-app";
 import { preferencesURL } from "../../common/routes";
 import { toJS } from "../../common/utils";
@@ -24,7 +24,7 @@ export let tray: Tray;
 
 export function getTrayIcon(): string {
   return path.resolve(
-    __static,
+    staticFilesDirectory,
     isDevelopment ? "../build/tray" : "icons", // copied within electron-builder extras
     "trayIconTemplate.png",
   );

@@ -5,7 +5,7 @@
 import { getInjectable } from "@ogre-tools/injectable";
 import path from "path";
 import { hasCorrectExtension } from "./has-correct-extension";
-import "../../../../common/vars";
+import { staticFilesDirectory } from "../../../../common/vars";
 import readFileInjectable from "../../../../common/fs/read-file.injectable";
 import readDirInjectable from "../../../../common/fs/read-dir.injectable";
 import type { RawTemplates } from "./create-resource-templates.injectable";
@@ -16,7 +16,7 @@ interface Dependencies {
 }
 
 async function getTemplates({ readDir, readFile }: Dependencies) {
-  const templatesFolder = path.resolve(__static, "../templates/create-resource");
+  const templatesFolder = path.resolve(staticFilesDirectory, "../templates/create-resource");
 
   /**
    * Mapping between file names and their contents
