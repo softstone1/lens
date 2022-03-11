@@ -78,7 +78,7 @@ export const helmBinaryPath = lazyInitialized(() => path.join(baseBinariesDir.ge
 export const kubectlBinaryName = getBinaryName("kubectl");
 export const kubectlBinaryPath = lazyInitialized(() => path.join(baseBinariesDir.get(), kubectlBinaryName));
 export const staticFilesDirectory = path.resolve(
-  isDevelopment
+  !isProduction
     ? process.cwd()
     : process.resourcesPath,
   "static",

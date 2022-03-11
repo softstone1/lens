@@ -23,7 +23,7 @@ export default function getTypescriptLoader(options: Partial<TSLoaderOptions> = 
       loader: "esbuild-loader",
       options: {
         loader: "tsx",
-        target: "ES2019",
+        target: "ES2019", // supported by >= electron@14
         implementation: esbuild,
       },
     };
