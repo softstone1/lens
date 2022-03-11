@@ -111,7 +111,7 @@ class NonInjectedReleaseDetails extends Component<ReleaseDetailsProps & Dependen
 
           return (
             <div className="values">
-              <DrawerTitle title="Values" />
+              <DrawerTitle>Values</DrawerTitle>
               <div className="flex column gaps">
                 <Checkbox
                   label="User-supplied values only"
@@ -233,9 +233,9 @@ class NonInjectedReleaseDetails extends Component<ReleaseDetailsProps & Dependen
           />
         </DrawerItem>
         {this.renderValues()}
-        <DrawerTitle title="Notes"/>
+        <DrawerTitle>Notes</DrawerTitle>
         {this.renderNotes()}
-        <DrawerTitle title="Resources"/>
+        <DrawerTitle>Resources</DrawerTitle>
         {this.renderResources()}
       </div>
     );
