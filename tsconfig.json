@@ -47,7 +47,6 @@
   "include": [
     "src/**/*",
     "types/*.d.ts",
-    "webpack/*.ts"
   ],
   "exclude": [
     "node_modules",
