@@ -15,6 +15,8 @@ import { DeleteClusterDialog } from "../delete-cluster-dialog";
 import type { ClusterModel } from "../../../../common/cluster-types";
 import { getDisForUnitTesting } from "../../../../test-utils/get-dis-for-unit-testing";
 import { createClusterInjectionToken } from "../../../../common/cluster/create-cluster-injection-token";
+import readFileSyncInjectable from "../../../../common/fs/read-file-sync.injectable";
+import { readFileSync } from "fs";
 
 jest.mock("electron", () => ({
   app: {
@@ -83,10 +85,9 @@ users:
     token: kubeconfig-user-q4lm4:xxxyyyy
 `;
 
-let config: KubeConfig;
-
 describe("<DeleteClusterDialog />", () => {
   let createCluster: (model: ClusterModel) => Cluster;
+  let config: KubeConfig;
 
   beforeEach(async () => {
     const { mainDi, runSetups } = getDisForUnitTesting({ doGeneralOverrides: true });
@@ -94,6 +95,8 @@ describe("<DeleteClusterDialog />", () => {
     mockFs();
 
     await runSetups();
+
+    mainDi.override(readFileSyncInjectable, () => readFileSync);
 
     createCluster = mainDi.inject(createClusterInjectionToken);
   });

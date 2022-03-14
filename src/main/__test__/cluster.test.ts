@@ -41,6 +41,8 @@ import type { ClusterModel } from "../../common/cluster-types";
 import { createClusterInjectionToken } from "../../common/cluster/create-cluster-injection-token";
 import createAuthorizationReviewInjectable from "../../common/cluster/authorization-review.injectable";
 import createListNamespacesInjectable from "../../common/cluster/list-namespaces.injectable";
+import { readFileSync } from "fs-extra";
+import readFileSyncInjectable from "../../common/fs/read-file-sync.injectable";
 
 console = new Console(process.stdout, process.stderr); // fix mockFS
 
@@ -81,6 +83,7 @@ describe("create clusters", () => {
 
     di.override(createAuthorizationReviewInjectable, () => () => () => Promise.resolve(true));
     di.override(createListNamespacesInjectable, () => () => () => Promise.resolve([ "default" ]));
+    di.override(readFileSyncInjectable, () => readFileSync); // TODO: don't bypass injectables
 
     createCluster = di.inject(createClusterInjectionToken);
 

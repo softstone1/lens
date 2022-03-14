@@ -50,6 +50,8 @@ import { getDiForUnitTesting } from "../getDiForUnitTesting";
 import createKubeAuthProxyInjectable from "../kube-auth-proxy/create-kube-auth-proxy.injectable";
 import { createClusterInjectionToken } from "../../common/cluster/create-cluster-injection-token";
 import path from "path";
+import readFileSyncInjectable from "../../common/fs/read-file-sync.injectable";
+import { readFileSync } from "fs";
 
 console = new Console(stdout, stderr);
 
@@ -96,8 +98,8 @@ describe("kube auth proxy tests", () => {
 
     await di.runSetups();
 
+    di.override(readFileSyncInjectable, () => readFileSync); // TODO: don't bypass injectables
     createCluster = di.inject(createClusterInjectionToken);
-
     createKubeAuthProxy = di.inject(createKubeAuthProxyInjectable);
 
     UserStore.createInstance();

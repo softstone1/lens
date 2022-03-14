@@ -40,6 +40,7 @@ import * as path from "path";
 import createKubeconfigManagerInjectable from "../kubeconfig-manager/create-kubeconfig-manager.injectable";
 import { createClusterInjectionToken } from "../../common/cluster/create-cluster-injection-token";
 import directoryForTempInjectable from "../../common/app-paths/directory-for-temp/directory-for-temp.injectable";
+import readFileSyncInjectable from "../../common/fs/read-file-sync.injectable";
 
 console = new Console(process.stdout, process.stderr); // fix mockFS
 
@@ -78,6 +79,7 @@ describe("kubeconfig manager tests", () => {
 
     await di.runSetups();
 
+    di.override(readFileSyncInjectable, () => fse.readFileSync); // TODO: don't bypass injectables
     const createCluster = di.inject(createClusterInjectionToken);
 
     createKubeconfigManager = di.inject(createKubeconfigManagerInjectable);

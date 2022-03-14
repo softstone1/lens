@@ -14,8 +14,8 @@ import { ClusterManager } from "../../cluster-manager";
 import clusterStoreInjectable from "../../../common/cluster-store/cluster-store.injectable";
 import { getDiForUnitTesting } from "../../getDiForUnitTesting";
 import { createClusterInjectionToken } from "../../../common/cluster/create-cluster-injection-token";
-import directoryForKubeConfigsInjectable
-  from "../../../common/app-paths/directory-for-kube-configs/directory-for-kube-configs.injectable";
+import directoryForKubeConfigsInjectable from "../../../common/app-paths/directory-for-kube-configs/directory-for-kube-configs.injectable";
+import readFileSyncInjectable from "../../../common/fs/read-file-sync.injectable";
 
 
 jest.mock("electron", () => ({
@@ -43,6 +43,8 @@ describe("kubeconfig-sync.source tests", () => {
     mockFs();
 
     await di.runSetups();
+
+    di.override(readFileSyncInjectable, () => fs.readFileSync);
 
     computeDiff = computeDiffFor({
       directoryForKubeConfigs: di.inject(directoryForKubeConfigsInjectable),
