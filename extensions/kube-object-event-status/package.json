@@ -17,6 +17,6 @@
   ],
   "devDependencies": {
     "@k8slens/extensions": "file:../../src/extensions/npm/extensions",
-    "npm": "^8.5.3"
+    "npm": "^8.11.0"
   }
 }
